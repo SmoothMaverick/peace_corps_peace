@@ -69,7 +69,9 @@ function loadTimeline(divId, startDatesDomain) {
     function selectYearForPosition(cx) {
         var year = Math.round(timeScale.invert(cx));
         selectYear(year, true);
-        console.log(new Date(year));
+        var format = d3.time.format("%Y-%m-%d");
+        var displayYear = format(new Date(year));
+        $("#dateDisplay").html(displayYear);
     }
 
     function selectYear(year, duration) {
