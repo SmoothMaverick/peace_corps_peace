@@ -14,8 +14,19 @@ PC.data = PC.data ? PC.data : {};
  PC.data.wishlist = [];
  PC.data.countryMedicalIssues = [];
  PC.data.projectStartDates = [];
+ PC.data.requestInProgress = 0;
+ PC.data.promise = $.Deferred();
+
+ PC.data.requestCompleted = function() {
+     PC.data.requestInProgress--;
+    if(PC.data.requestInProgress == 0) {
+        PC.data.promise.resolve();
+    }
+ }
+
 
  PC.data.loadSectors = function() {
+    PC.data.requestInProgress++;
     $.ajax({
         url:  PC.data.jsrUrl + ".csv?$select=title&$group=title"
     }).done(function(text) {
@@ -25,10 +36,12 @@ PC.data = PC.data ? PC.data : {};
                  PC.data.sectors.push(tmpsectors[i]);
             }
         }
+        PC.data.requestCompleted();
     });
 };
 
  PC.data.loadCountries = function() {
+     PC.data.requestInProgress++;
     $.ajax({
         url:   PC.data.jsrUrl + ".csv?$select=country_post&$group=country_post"
     }).done(function(text) {
@@ -38,10 +51,12 @@ PC.data = PC.data ? PC.data : {};
                  PC.data.countries.push(tmp[i]);
             }
         }
+        PC.data.requestCompleted();
     });
 };
 
  PC.data.loadLanguages = function() {
+     PC.data.requestInProgress++;
     $.ajax({
         url:   PC.data.jsrUrl + ".csv?$select=language_requirement_lang_skills&$group=language_requirement_lang_skills"
     }).done(function(text) {
@@ -51,10 +66,12 @@ PC.data = PC.data ? PC.data : {};
                  PC.data.languages.push(tmp[i]);
             }
         }
+        PC.data.requestCompleted();
     });
 };
 
  PC.data.loadProjectStartDates = function() {
+     PC.data.requestInProgress++;
     $.ajax({
         url:   PC.data.jsrUrl + ".csv?$select=staging_start_date_staging_start_date&$group=staging_start_date_staging_start_date&$order=staging_start_date_staging_start_date ASC"
     }).done(function(text) {
@@ -64,15 +81,18 @@ PC.data = PC.data ? PC.data : {};
                  PC.data.projectStartDates.push(new Date(tmp[i]));
             }
         }
+        PC.data.requestCompleted();
     });
 };
 
  PC.data.loadCountryMedicalIssues = function() {
+     PC.data.requestInProgress++;
     $.ajax({
         url:  PC.data.medicalUrl + ".json"
     }).done(function(countryMedicalIssues) {
          PC.data.countryMedicalIssues = countryMedicalIssues;
     });
+     PC.data.requestCompleted();
 };
 
  PC.data.filterCountriesWithMedicalIssues = function(arrayOfIssues, countries) {
@@ -157,6 +177,7 @@ PC.data = PC.data ? PC.data : {};
         .join(' AND ');
     queryString = queryString.trim() === '' ? '' : "$where=" + queryString;
     console.log(queryString);
+
     // make ajax call
     var promise = $.ajax({
         url:   PC.data.jsrUrl + ".json?" + queryString,
@@ -167,9 +188,11 @@ PC.data = PC.data ? PC.data : {};
     return promise;
 };
 
-
+PC.data.load = function() {
  PC.data.loadSectors();
  PC.data.loadCountries();
  PC.data.loadLanguages();
  PC.data.loadCountryMedicalIssues();
  PC.data.loadProjectStartDates();
+ return PC.data.promise;
+}
