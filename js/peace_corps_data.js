@@ -3,85 +3,86 @@
  */
 
 window.PC = window.PC ? window.PC : {};
+PC.data = PC.data ? PC.data : {};
 
-PC.jsrUrl = "http://opendata.socrata.com/resource/2nwa-frvc";
-PC.medicalUrl = "PC.medicalUrl";
+ PC.data.jsrUrl = "http://opendata.socrata.com/resource/2nwa-frvc";
+ PC.data.medicalUrl = "http://opendata.socrata.com/resource/qq6c-5xu9";
 
-PC.sectors = [];
-PC.countries = [];
-PC.languages = [];
-PC.wishlist = [];
-PC.countryMedicalIssues = [];
-PC.projectStartDates = [];
+ PC.data.sectors = [];
+ PC.data.countries = [];
+ PC.data.languages = [];
+ PC.data.wishlist = [];
+ PC.data.countryMedicalIssues = [];
+ PC.data.projectStartDates = [];
 
-PC.loadSectors = function() {
+ PC.data.loadSectors = function() {
     $.ajax({
-        url: PC.jsrUrl + ".csv?$select=title&$group=title"
+        url:  PC.data.jsrUrl + ".csv?$select=title&$group=title"
     }).done(function(text) {
         var tmpsectors = text.split("\n");
         for(var i=1; i<tmpsectors.length; i++) {
             if(tmpsectors[i].trim() !== "" ) {
-                PC.sectors.push(tmpsectors[i]);
+                 PC.data.sectors.push(tmpsectors[i]);
             }
         }
     });
 };
 
-PC.loadCountries = function() {
+ PC.data.loadCountries = function() {
     $.ajax({
-        url:  PC.jsrUrl + ".csv?$select=country_post&$group=country_post"
+        url:   PC.data.jsrUrl + ".csv?$select=country_post&$group=country_post"
     }).done(function(text) {
         var tmp = text.split("\n");
         for(var i=1; i<tmp.length; i++) {
             if(tmp[i].trim() !== "" ) {
-                PC.countries.push(tmp[i]);
+                 PC.data.countries.push(tmp[i]);
             }
         }
     });
 };
 
-PC.loadLanguages = function() {
+ PC.data.loadLanguages = function() {
     $.ajax({
-        url:  PC.jsrUrl + ".csv?$select=language_requirement_lang_skills&$group=language_requirement_lang_skills"
+        url:   PC.data.jsrUrl + ".csv?$select=language_requirement_lang_skills&$group=language_requirement_lang_skills"
     }).done(function(text) {
         var tmp = text.split("\n");
         for(var i=1; i<tmp.length; i++) {
             if(tmp[i].trim() !== "" ) {
-                PC.languages.push(tmp[i]);
+                 PC.data.languages.push(tmp[i]);
             }
         }
     });
 };
 
-PC.loadProjectStartDates = function() {
+ PC.data.loadProjectStartDates = function() {
     $.ajax({
-        url:  PC.jsrUrl + ".csv?$select=staging_start_date_staging_start_date&$group=staging_start_date_staging_start_date&$order=staging_start_date_staging_start_date ASC"
+        url:   PC.data.jsrUrl + ".csv?$select=staging_start_date_staging_start_date&$group=staging_start_date_staging_start_date&$order=staging_start_date_staging_start_date ASC"
     }).done(function(text) {
         var tmp = text.split("\n");
         for(var i=1; i<tmp.length; i++) {
             if(tmp[i].trim() !== "" ) {
-                PC.projectStartDates.push(new Date(tmp[i]));
+                 PC.data.projectStartDates.push(new Date(tmp[i]));
             }
         }
     });
 };
 
-PC.loadCountryMedicalIssues = function() {
+ PC.data.loadCountryMedicalIssues = function() {
     $.ajax({
-        url: PC.medicalUrl + ".json"
+        url:  PC.data.medicalUrl + ".json"
     }).done(function(countryMedicalIssues) {
-        PC.countryMedicalIssues = countryMedicalIssues;
+         PC.data.countryMedicalIssues = countryMedicalIssues;
     });
 };
 
-PC.filterCountriesWithMedicalIssues = function(arrayOfIssues, countries) {
-    countries = countries ? countries : PC.countries;
+ PC.data.filterCountriesWithMedicalIssues = function(arrayOfIssues, countries) {
+    countries = countries ? countries :  PC.data.countries;
     var countriesWithoutTheIssues = [];
     var countriesToRemove = [];
     // find all countries with the issues
-    for(var countryIndex in PC.countryMedicalIssues) {
-        if(PC.countryMedicalIssues.hasOwnProperty(countryIndex)) {
-            var countryObject = PC.countryMedicalIssues[countryIndex];
+    for(var countryIndex in  PC.data.countryMedicalIssues) {
+        if( PC.data.countryMedicalIssues.hasOwnProperty(countryIndex)) {
+            var countryObject =  PC.data.countryMedicalIssues[countryIndex];
             for(var i=0; i<arrayOfIssues.length; i++) {
                 // if country has issues
                 if(countryObject.text.indexOf(arrayOfIssues[i]) != -1) {
@@ -101,7 +102,7 @@ PC.filterCountriesWithMedicalIssues = function(arrayOfIssues, countries) {
     return countriesWithoutTheIssues;
 };
 
-PC.getFilteredPosts = function(selectedCountries, earliestStartDate, sectors, medicalIssues) {
+ PC.data.getFilteredPosts = function(selectedCountries, earliestStartDate, sectors, medicalIssues) {
     var countryQuery = '';
     var sectorsQuery = '';
     var startDateQuery = '';
@@ -109,11 +110,11 @@ PC.getFilteredPosts = function(selectedCountries, earliestStartDate, sectors, me
     // filter selected countries by medical issues if neccessary
     if(selectedCountries && selectedCountries.length > 0) {
         if(medicalIssues) {
-            selectedCountries = PC.filterCountriesWithMedicalIssues(medicalIssues, selectedCountries);
+            selectedCountries =  PC.data.filterCountriesWithMedicalIssues(medicalIssues, selectedCountries);
         }
     } else {
         if(medicalIssues) {
-            selectedCountries = PC.filterCountriesWithMedicalIssues(medicalIssues);
+            selectedCountries =  PC.data.filterCountriesWithMedicalIssues(medicalIssues);
         }
     }
 
@@ -158,7 +159,7 @@ PC.getFilteredPosts = function(selectedCountries, earliestStartDate, sectors, me
     console.log(queryString);
     // make ajax call
     var promise = $.ajax({
-        url:  PC.jsrUrl + ".json?" + queryString,
+        url:   PC.data.jsrUrl + ".json?" + queryString,
         crossDomain: true
     });
 
@@ -167,8 +168,8 @@ PC.getFilteredPosts = function(selectedCountries, earliestStartDate, sectors, me
 };
 
 
-PC.loadSectors();
-PC.loadCountries();
-PC.loadLanguages();
-PC.loadCountryMedicalIssues();
-PC.loadProjectStartDates();
+ PC.data.loadSectors();
+ PC.data.loadCountries();
+ PC.data.loadLanguages();
+ PC.data.loadCountryMedicalIssues();
+ PC.data.loadProjectStartDates();
