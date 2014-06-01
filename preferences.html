@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Peace Corps | Application</title>
     <link rel="stylesheet" href="css/foundation.css" />
-    <link rel="stylesheet" href="css/timeline.css" />
     <script src="js/vendor/modernizr.js"></script>
   </head>
 
@@ -42,7 +41,11 @@
 
          <article>
             <h2>When <small>would you like to go?</small></h2>
-            <div id="timeline"></div>
+            <ul>
+               <li>Date 1</li>
+               <li>Date 2</li>
+               <li>Date 3</li>
+            </ul>
          </article>
 
          <hr/>
@@ -79,17 +82,8 @@
 
     <script src="js/vendor/jquery.js"></script>
     <script src="js/foundation.min.js"></script>
-     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-    <script src="js/peace_corps_data.js"></script>
-    <script src="js/timelineslider.js"></script>
     <script>
       $(document).foundation();
-
-      PC.data.load().done(function() {
-          var startDatesDomain = [ PC.data.projectStartDates[0],  PC.data.projectStartDates[PC.data.projectStartDates.length - 1]];
-          loadTimeline("timeline", startDatesDomain);
-      });
-
     </script>
   </body>
 </html>
