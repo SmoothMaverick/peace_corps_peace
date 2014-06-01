@@ -12,6 +12,17 @@
           #spinningGlobe {
               margin-left: -400px;
           }
+          #infoBox {
+              background-color: rgba(255,255,255,0.9);
+              width: 300px;
+              padding: 10px;
+              border-radius: 5px;
+              border: 1px solid #eee;
+              top: 350px;
+              left: -30px;
+              position: absolute;
+              height: 175px;
+          }
       </style>
   </head>
 
@@ -36,7 +47,7 @@
 
          <article>
             <h2>Where <small>would you like to go?</small></h2>
-            <ul>
+            <ul id="worldlist">
                <li>Country 1</li>
                <li>Country 2</li>
                <li>Country 3</li>
@@ -71,6 +82,15 @@
        </aside>
          <aside class="large-3 columns panel">
             <div id="spinningGlobe"></div>
+             <div id="infoBox">
+                 <div class="infoText">
+                     <h5 class="countryName"></h5>
+                     <div class="countryDescription">
+                         <div class="medicalIssues"></div>
+                         <div class="departureDates"></div>
+                     </div>
+                 </div>
+             </div>
        </aside>
      </div>
 

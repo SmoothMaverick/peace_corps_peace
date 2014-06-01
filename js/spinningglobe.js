@@ -19,7 +19,8 @@
         .projection(projection)
         .context(c);
 
-    var title = d3.select("h1");
+    var title = d3.select("#infoBox .countryName");
+    var medicalIssues = d3.select("#infoBox .medicalIssues");
 
     queue()
         .defer(d3.json, "data/world-110m.json")
@@ -41,12 +42,15 @@
         }).sort(function(a, b) {
             return a.name.localeCompare(b.name);
         });
+        n = countries.length;
 
         (function transition() {
             d3.transition()
                 .duration(1250)
                 .each("start", function() {
-                    title.text(countries[i = (i + 1) % n].name);
+                    var countryName = countries[i = (i + 1) % n].name;
+                    title.text(countryName);
+                    medicalIssues.text(PC.data.getCountryMedicalIssues(countryName));
                 })
                 .tween("rotate", function() {
                     var p = d3.geo.centroid(countries[i]),

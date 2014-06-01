@@ -95,6 +95,18 @@ PC.data = PC.data ? PC.data : {};
      PC.data.requestCompleted();
 };
 
+ PC.data.getCountryMedicalIssues = function(countryName) {
+     countryName = countryName.trim();
+     for(var countryIndex in  PC.data.countryMedicalIssues) {
+         if (PC.data.countryMedicalIssues.hasOwnProperty(countryIndex)) {
+             var countryObject =  PC.data.countryMedicalIssues[countryIndex];
+             if(countryObject.country == countryName) {
+                 return countryObject.text;
+             }
+         }
+     }
+};
+
  PC.data.filterCountriesWithMedicalIssues = function(arrayOfIssues, countries) {
     countries = countries ? countries :  PC.data.countries;
     var countriesWithoutTheIssues = [];
@@ -111,6 +123,7 @@ PC.data = PC.data ? PC.data : {};
             }
         }
     }
+
     // find countries that have no issues
     for(var i=0;i<countries.length; i++) {
         // if this country has no issues, add it to our list
@@ -196,3 +209,4 @@ PC.data.load = function() {
  PC.data.loadProjectStartDates();
  return PC.data.promise;
 }
+
