@@ -22,6 +22,11 @@
     var title = d3.select("#infoBox .countryName");
     var medicalIssues = d3.select("#infoBox .medicalIssues");
 
+    PC.showCountryData = function(countryName) {
+        title.text(countryName);
+        medicalIssues.text(PC.data.getCountryMedicalIssues(countryName));
+    }
+
     queue()
         .defer(d3.json, "data/world-110m.json")
         .defer(d3.tsv, "data/world-country-names.tsv")
@@ -49,8 +54,7 @@
                 .duration(1250)
                 .each("start", function() {
                     var countryName = countries[i = (i + 1) % n].name;
-                    title.text(countryName);
-                    medicalIssues.text(PC.data.getCountryMedicalIssues(countryName));
+                    PC.showCountryData(countryName);
                 })
                 .tween("rotate", function() {
                     var p = d3.geo.centroid(countries[i]),
@@ -67,5 +71,39 @@
                 .transition()
                 .each("end", transition);
         })();
+
+
+        PC.spinToCountry = function(countryName) {
+            for(var i = 0; i<countries.length; i++) {
+                if (countries[i].name == countryName) {
+                    console.log("found ", countryName, "at index ", i);
+                    break;
+                }
+            }
+//            var i = names.indexOf(countryName);
+            console.log(countryName, i);
+//            console.log(names);
+            d3.transition()
+                .duration(1250)
+                .each("start", function() {
+                    var countryName = countries[i].name;
+                    PC.showCountryData(countryName);
+                })
+                .tween("rotate", function() {
+                    var p = d3.geo.centroid(countries[i]),
+                        r = d3.interpolate(projection.rotate(), [-p[0], -p[1]]);
+                    return function(t) {
+                        projection.rotate(r(t));
+                        c.clearRect(0, 0, width, height);
+                        c.fillStyle = "#bbb", c.beginPath(), path(land), c.fill();
+                        c.fillStyle = "#f00", c.beginPath(), path(countries[i]), c.fill();
+                        c.strokeStyle = "#fff", c.lineWidth = .5, c.beginPath(), path(borders), c.stroke();
+                        c.strokeStyle = "#000", c.lineWidth = 2, c.beginPath(), path(globe), c.stroke();
+                    };
+                });
+        };
+
     }
+
+
 
