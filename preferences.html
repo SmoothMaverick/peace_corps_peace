@@ -5,9 +5,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Peace Corps | Application</title>
-    <link rel="stylesheet" href="css/foundation.css" />
-    <link rel="stylesheet" href="css/timeline.css" />
-    <script src="js/vendor/modernizr.js"></script>
+      <script src="js/vendor/modernizr.js"></script>
+      <link rel="stylesheet" href="css/foundation.css" />
+      <link rel="stylesheet" href="css/timeline.css" />
+      <style>
+          #spinningGlobe {
+              margin-left: -400px;
+          }
+      </style>
   </head>
 
   <body>
@@ -64,6 +69,9 @@
            <li>Pick 3</li>
          </ul>
        </aside>
+         <aside class="large-3 columns panel">
+            <div id="spinningGlobe"></div>
+       </aside>
      </div>
 
      <footer class="row">
@@ -75,13 +83,17 @@
            </div>
          </div>
        </div>
+
      </footer>
 
     <script src="js/vendor/jquery.js"></script>
     <script src="js/foundation.min.js"></script>
      <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+     <script src="http://d3js.org/queue.v1.min.js"></script>
+     <script src="http://d3js.org/topojson.v1.min.js"></script>
      <script src="js/peace_corps_data.js"></script>
      <script src="js/timelineslider.js"></script>
+     <script src="js/spinningglobe.js"></script>
      <script>
          $(document).foundation();
 
@@ -89,7 +101,6 @@
              var startDatesDomain = [ PC.data.projectStartDates[0],  PC.data.projectStartDates[PC.data.projectStartDates.length - 1]];
              loadTimeline("timeline", startDatesDomain);
          });
-
      </script>
   </body>
 </html>
