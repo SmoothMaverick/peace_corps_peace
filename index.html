@@ -6,6 +6,57 @@
     <title>Foundation | Welcome</title>
     <link rel="stylesheet" href="css/foundation.css" />
     <script src="js/vendor/modernizr.js"></script>
+    <script>
+      window.PC = {};
+
+      PC.sectors = [];
+      PC.countries = [];
+      PC.languages = [];
+      PC.wishlist = [];
+    
+      PC.loadSectors();
+      PC.loadCountries();
+      PC.loadLanguages();
+
+      PC.loadSectors = function() {
+          $.ajax({
+              url: "http://opendata.socrata.com/resource/2nwa-frvc.csv?$select=title&$group=title"
+          }).done(function(text) {
+              var tmpsectors = text.split("\n");
+              for(var i=1; i<tmpsectors.length; i++) {
+                  if(tmpsectors[i].trim() !== "" ) {
+                      PC.sectors.push(tmpsectors[i]);
+                  }
+              }
+          });
+      };
+
+      PC.loadCountries = function() {
+          $.ajax({
+              url: "http://opendata.socrata.com/resource/2nwa-frvc.csv?$select=country_post&$group=country_post"
+          }).done(function(text) {
+              var tmp = text.split("\n");
+              for(var i=1; i<tmp.length; i++) {
+                  if(tmp[i].trim() !== "" ) {
+                      PC.countries.push(tmp[i]);
+                  }
+              }
+          });
+      };
+
+      PC.loadLanguages = function() {
+          $.ajax({
+              url: "http://opendata.socrata.com/resource/2nwa-frvc.csv?$select=language_requirement_lang_skills&$group=language_requirement_lang_skills"
+          }).done(function(text) {
+              var tmp = text.split("\n");
+              for(var i=1; i<tmp.length; i++) {
+                  if(tmp[i].trim() !== "" ) {
+                      PC.languages.push(tmp[i]);
+                  }
+              }
+          });
+      }
+    </script>
   </head>
   <body>
 
