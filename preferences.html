@@ -23,6 +23,9 @@
               position: absolute;
               height: 175px;
           }
+          .highlight {
+              background-color: aquamarine;
+          }
       </style>
   </head>
 
@@ -50,7 +53,7 @@
              <div>
                 <input type="text" ng-model="search.country_post">
                 <ul>
-                   <li ng-repeat="post in countries | filter:search | orderBy:'country_post' | unique:'country_post' | limitTo: 10"><a href='' ng-click='addWishCountries(post.country_post)'>{{post.country_post}}</a></li>
+                   <li ng-repeat="post in countries | filter:search | orderBy:'country_post' | unique:'country_post' | limitTo: 10"><a href='' onmouseout="$(this).toggleClass('highlight');" onmouseover="$(this).toggleClass('highlight'); PC.spinToCountry(this.innerHTML)" ng-click='addWishCountries(post.country_post); '>{{post.country_post}}</a></li>
                 </ul>
              </div>
          </article>
@@ -103,7 +106,7 @@
         <h6>Countries</h6>
              <div>
                 <ul>
-                   <li ng-repeat="wish in wishCountries"><a href='' ng-click='removeWishCountries(wish)'>{{wish}}</a></li>
+                   <li ng-repeat="wish in wishCountries"><a href='' onmouseout="$(this).toggleClass('highlight');" onmouseover="$(this).toggleClass('highlight'); PC.spinToCountry(this.innerHTML)" ng-click='removeWishCountries(wish)'>{{wish}}</a></li>
                </ul>
             </div>
        </aside>
