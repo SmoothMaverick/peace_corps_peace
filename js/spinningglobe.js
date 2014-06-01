@@ -24,8 +24,25 @@
 
     PC.showCountryData = function(countryName) {
         title.text(countryName);
-        medicalIssues.text(PC.data.getCountryMedicalIssues(countryName));
-    }
+        var medIssues  = PC.data.getCountryMedicalIssues(countryName);
+//        if(medIssues) {
+//            medIssues = medIssues.replace(":", ":<small>") + "</small>";
+//        }
+        medicalIssues.text(medIssues);
+        PC.data.getFilteredPosts([countryName]).done(function(posts){
+            var departureDates = [];
+            for(var i=0; i<posts.length; i++) {
+                console.log(posts[i]);
+                var format = d3.time.format("%Y-%mmm-%d");
+//                var displayYear = format(new Date(posts.staging_start_date_staging_start_date));
+//                $("#dateDisplay").html(displayYear);
+                departureDates.push(format(new Date(posts.staging_start_date_staging_start_date)));
+            }
+            $("#infoBox .postCount").html(posts.length + " posts coming up");
+//            $("#infoBox .departureDates").html(departureDates.join(" "));
+        });
+
+    };
 
     queue()
         .defer(d3.json, "data/world-110m.json")
