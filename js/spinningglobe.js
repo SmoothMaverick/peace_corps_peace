@@ -25,10 +25,10 @@
     PC.showCountryData = function(countryName) {
         title.text(countryName);
         var medIssues  = PC.data.getCountryMedicalIssues(countryName);
-//        if(medIssues) {
-//            medIssues = medIssues.replace(":", ":<small>") + "</small>";
-//        }
-        medicalIssues.text(medIssues);
+        if(medIssues) {
+            medIssues = "<p>" + medIssues.replace(":", ":<small><ul><li>").replace(/;/g,"</li><li>") + "</li></ul></small></p>";
+        }
+        medicalIssues.html(medIssues);
         PC.data.getFilteredPosts([countryName]).done(function(posts){
             var departureDates = [];
             for(var i=0; i<posts.length; i++) {
