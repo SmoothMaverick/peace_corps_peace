@@ -7,9 +7,9 @@ function loadTimeline(divId, startDatesDomain) {
 //    var startDatesDomain = [startDates[0], startDates[startDates.length - 1]];
     //    console.log(startDates);
 
-    var margin = {top: 50, right: 40, bottom: 100, left: 40},
-        width = 960 - margin.left - margin.right,
-        height = 150 - margin.top - margin.bottom,
+    var margin = {top: 0, right: 5, bottom: 70, left: 5},
+        width = 510 - margin.left - margin.right,
+        height = 100 - margin.top - margin.bottom,
         tickSize = 6,
         format = d3.time.format("%Y-%m-%d %H:%M");
 
@@ -50,8 +50,8 @@ function loadTimeline(divId, startDatesDomain) {
         .attr("transform", "translate(" + (timeScale(selectedYear)) + ",0)");
 
     selectorHand.append("line")
-        .attr("y1", -25)
-        .attr("y2", -2);
+        .attr("y1", 0)
+        .attr("y2", 28);
 
 
 

@@ -2,7 +2,7 @@
  * Created by nmew on 6/1/14.
  */
     var containerId = "spinningGlobe";
-    var width =960,
+    var width = 760,
         height = 500;
 
     var projection = d3.geo.orthographic()
@@ -26,7 +26,7 @@
         title.text(countryName);
         var medIssues  = PC.data.getCountryMedicalIssues(countryName);
         if(medIssues) {
-            medIssues = "<p>" + medIssues.replace(":", ":<small><ul><li>").replace(/;/g,"</li><li>") + "</li></ul></small></p>";
+            medIssues = "<h3><small>" + medIssues.replace(/^.*:/, "Medical Restrictions:</small></h3><ul><li><span>").replace(/;/g,"</span></li><li><span>") + "</span></li></ul>";
         }
         medicalIssues.html(medIssues);
         PC.data.getFilteredPosts([countryName]).done(function(posts){
@@ -93,7 +93,7 @@
         PC.spinToCountry = function(countryName) {
             for(var i = 0; i<countries.length; i++) {
                 if (countries[i].name == countryName) {
-                    console.log("found ", countryName, "at index ", i);
+//                    console.log("found ", countryName, "at index ", i);
                     break;
                 }
             }
