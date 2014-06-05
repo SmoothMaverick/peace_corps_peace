@@ -22,11 +22,19 @@
           ul.column-list li {
               margin-left: 20px;
           }
+          hr {
+              position: relative;
+              z-index: -3;
+          }
           #spinningGlobe {
               background-color: #ffffff;
+              position: relative;
+              z-index: -2;
           }
           #spinningGlobe, #spinningGlobe canvas, #spinningGlobe svg {
               margin-left: -200px;
+              position: relative;
+              z-index: -1;
           }
           #infoBox {
               background-color: rgba(255,255,255,0.9);
@@ -64,6 +72,7 @@
           }
           #dateDisplay {
               color: #008cba;
+              margin-left: 5px;
           }
       </style>
   </head>
@@ -151,7 +160,7 @@
             </div>
        </aside>
 
-         <aside class="large-3 columns panel" style="background-color:#ffffff; border-color:#fff">
+         <aside class="large-3 columns panel" style="background-color: transparent; border-color: transparent">
             <div id="spinningGlobe"></div>
              <div id="infoBox">
                  <div class="infoText">

@@ -43,7 +43,13 @@ function loadTimeline(divId, startDatesDomain) {
 
     var selectedYear = startDatesDomain[0];
 
-    var selectorHandHeight = Math.max(height - 30, 60);
+    var selectorArea = svg.append("rect")
+        .attr("class", "selectorArea")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("width", width)
+        .attr("height", height + 10)
+        .attr("transform", "translate(" + (timeScale(selectedYear)) + ",0)");
 
     var selectorHand = svg.append("g")
         .attr("class", "selectorHand")
@@ -51,9 +57,7 @@ function loadTimeline(divId, startDatesDomain) {
 
     selectorHand.append("line")
         .attr("y1", 0)
-        .attr("y2", 28);
-
-
+        .attr("y2", height - 1);
 
     d3.select(id + " g.axis")
         .on("click", function () {
@@ -96,22 +100,15 @@ function loadTimeline(divId, startDatesDomain) {
 
 
     d3.select(id + " .selectorHand")
-        .on("mouseover", function () {
-            d3.select(this).select("circle.halo")
-                .transition()
-                .duration(250)
-                .attr("opacity", "1.0");
-        })
-        .on("mouseout", function () {
-            d3.select(this).select("circle.halo")
-                .transition()
-                .duration(250)
-                .attr("opacity", "0.5");
-        })
         .call(selectorHandDrag);
 
 
-    d3.select(id + " g.chart")
+    d3.select(id + " g.axis")
+        .on("click", function () {
+            var c = d3.mouse(this);
+            selectYearForPosition(c[0]);
+        });
+    d3.select(id + " .selectorArea")
         .on("click", function () {
             var c = d3.mouse(this);
             selectYearForPosition(c[0]);
