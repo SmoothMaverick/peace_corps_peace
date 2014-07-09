@@ -3,7 +3,7 @@
 
 #Peace Corps Peace
 
-Peace Corp Peace is the web application for potential applicants for the Peace Corp.
+Peace Corp Peace is the web application for potential applicants for the Peace Corps.
 
 
 
