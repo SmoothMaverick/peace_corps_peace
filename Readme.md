@@ -1,7 +1,7 @@
 
 
 
-#Peace Corp Peace
+#Peace Corps Peace
 
 Peace Corp Peace is the web application for potential applicants for the Peace Corp.
 
