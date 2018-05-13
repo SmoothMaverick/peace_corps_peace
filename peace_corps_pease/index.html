@@ -1,0 +1,276 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Peace Corps | Application</title>
+    <link rel="stylesheet" href="css/foundation.css" />
+    <link rel="stylesheet" href="css/timeline.css" />
+    <script src="js/vendor/modernizr.js"></script>
+      <style>
+          #spinningGlobe {
+              margin-left: -400px;
+          }
+          #infoBox {
+              background-color: rgba(255,255,255,0.9);
+              width: 300px;
+              padding: 10px;
+              border-radius: 5px;
+              border: 1px solid #eee;
+              top: 350px;
+              left: -30px;
+              position: absolute;
+              height: 175px;
+          }
+      </style>
+  </head>
+
+  <body ng-app="peaceApp" ng-controller="CountriesCtrl">
+     <div class="row">
+       <div class="large-12 columns">
+
+         <div class="magellan-container" data-magellan-expedition="fixed" style="">
+            <dl class="sub-nav">
+               <dd class="" data-magellan-arrival="preferences">
+                  <a href=#preferences>
+                     Preferences
+                  </a>
+               </dd>
+               <dd class="" data-magellan-arrival="qualifications">
+                  <a href=#qualifications>
+                     Qualifications
+                  </a>
+               </dd>
+               <dd class="" data-magellan-arrival="Summary">
+                  <a href=#summary>
+                     Summary
+                  </a>
+               </dd>
+            </dl>
+         </div>
+
+         <h1>Peace Corp <small>Application</small></h1>
+       </div>
+     </div>
+
+     <div class="row">
+
+       <div class="large-9 columns" role="content">
+
+         <hr/>
+         <h2 id="preferences">Preferences</h2>
+         <hr/>
+
+         <article >
+            <h2>Where <small>would you like to go?</small></h2>
+            <div>
+               <input type="text" ng-model="search.country_post">
+               <ul ng-repeat="post in countries | filter:search | orderBy:'country_post' | unique:'country_post'">
+                  <li><a href='' ng-click='addWishCountries(post.country_post)'>{{post.country_post}}</a></li>
+               </ul>
+            </div>
+						
+         </article>
+
+         <hr/>
+
+         <article>
+            <h2>When <small>would you like to go?</small></h2>
+            <div>
+               <ul ng-repeat="date in countries | orderBy: 'staging_start_date_staging_start_date'">
+                  <li><a href='' ng-click='addWishDates(date.staging_start_date_staging_start_date)'>{{date.pst_start_month_pst_start_month}}, {{date.fiscal_year_year_quarter}}</a></li>
+               </ul>
+            </div>
+         </article>
+
+         <hr/>
+
+         <article>
+            <h2>What <small>sector would you like to be involved in?</small></h2>
+            <div>
+               <ul ng-repeat="sector in countries | orderBy:'sector_sector' | unique:'sector_sector'">
+                  <li><a href='' ng-click='addWishSectors(sector.sector_sector)'>{{sector.sector_sector}}</a></li>
+               </ul>
+            </div>
+         </article>
+
+         <hr/>
+
+         <h2 id="qualifications">Qualifications</h2>
+
+         <hr/>
+
+         <article>
+            <h3>List languages you are familiar with</h3>
+            <div>
+               <ul ng-repeat="language in countries | orderBy:'language_requirement_lang_skills' | unique:'language_requirement_lang_skills'">
+                  <li><a href='' ng-click='addQualLanguages(language.language_requirement_lang_skills)'>{{language.language_requirement_lang_skills}}</a></li>
+               </ul>
+            </div>
+         </article>
+
+         <hr/>
+
+         <article>
+            <h3>List medical issues you currently have</h3>
+            <ul>
+               <li>Issue 1</li>
+               <li><a href='' ng-click='addQualMedical()'>{{}}</a></li>
+            </ul>
+         </article>
+
+         <hr/>
+
+         <article>
+            <h3>List skills you have</h3>
+            <ul>
+               <li>Skill 1</li>
+               <li><a href='' ng-click='addQualSkills()'>{{}}</a></li>
+            </ul>
+         </article>
+
+         <hr/>
+
+         <article>
+            <h3>List your education background</h3>
+            <ul>
+               <li>Education 1</li>
+               <li><a href='' ng-click='addQualEducation()'>{{}}</a></li>
+            </ul>
+         </article>
+
+       </div>
+       <aside class="large-3 columns panel">
+         <h5>Wish List</h5>
+         <h6>Countries</h6>
+				 <div>
+					 <ul ng-repeat="wish in wishCountries">
+						 <li><a href='' ng-click='removeWishCountries(wish)'>{{wish}}</a></li>
+					</ul>
+				</div>
+       </aside>
+     </div>
+
+     <footer class="row">
+       <div class="large-12 columns">
+         <hr/>
+         <div class="row">
+           <div class="large-6 columns">
+             <p>© Copyright no one at all. Go to town.</p>
+           </div>
+         </div>
+       </div>
+     </footer>
+
+   <!-- Jason's stuff -->
+    <script src="js/vendor/jquery.js"></script>
+    <script src="js/foundation.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.10/angular.js"></script>
+    <script src="js/ui-utils.min.js"></script>
+    <script src="js/main.js"></script>
+
+   <!-- Nick's stuff -->
+     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+     <script src="http://d3js.org/queue.v1.min.js"></script>
+     <script src="http://d3js.org/topojson.v1.min.js"></script>
+     <script src="js/peace_corps_data.js"></script>
+     <script src="js/timelineslider.js"></script>
+     <script src="js/spinningglobe.js"></script>
+    <script>
+      $(document).foundation();
+        PC.data.load().done(function() {
+             var startDatesDomain = [ PC.data.projectStartDates[0], PC.data.projectStartDates[PC.data.projectStartDates.length - 1]];
+             loadTimeline("timeline", startDatesDomain);
+         });
+    </script>
+   <script>
+       window.PC = {};
+
+       PC.sectors = [];
+       PC.countries = [];
+       PC.languages = [];
+       PC.wishlist = [];
+       PC.countryMedicalIssues = [];
+
+       PC.loadSectors = function() {
+           $.ajax({
+               url: "http://opendata.socrata.com/resource/2nwa-frvc.csv?$select=title&$group=title"
+           }).done(function(text) {
+               var tmpsectors = text.split("\n");
+               for(var i=1; i<tmpsectors.length; i++) {
+                   if(tmpsectors[i].trim() !== "" ) {
+                       PC.sectors.push(tmpsectors[i]);
+                   }
+               }
+           });
+       };
+
+       PC.loadCountries = function() {
+           $.ajax({
+               url: "http://opendata.socrata.com/resource/2nwa-frvc.csv?$select=country_post&$group=country_post"
+           }).done(function(text) {
+               var tmp = text.split("\n");
+               for(var i=1; i<tmp.length; i++) {
+                   if(tmp[i].trim() !== "" ) {
+                       PC.countries.push(tmp[i]);
+                   }
+               }
+           });
+       };
+
+       PC.loadLanguages = function() {
+           $.ajax({
+               url: "http://opendata.socrata.com/resource/2nwa-frvc.csv?$select=language_requirement_lang_skills&$group=language_requirement_lang_skills"
+           }).done(function(text) {
+               var tmp = text.split("\n");
+               for(var i=1; i<tmp.length; i++) {
+                   if(tmp[i].trim() !== "" ) {
+                       PC.languages.push(tmp[i]);
+                   }
+               }
+           });
+       }
+
+       PC.getCountriesWithoutMedicalIssues = function(arrayOfIssues) {
+           var countriesWithoutTheIssues = [];
+           var countriesToRemove = [];
+           // find all countries with the issues
+           for(var countryIndex in PC.countryMedicalIssues) {
+               if(PC.countryMedicalIssues.hasOwnProperty(countryIndex)) {
+                   var countryObject = PC.countryMedicalIssues[countryIndex];
+                   for(var i=0; i<arrayOfIssues.length; i++) {
+                       // if country has issues
+                       if(countryObject.text.indexOf(arrayOfIssues[i]) != -1) {
+                           countriesToRemove.push(countryObject.country);
+                       }
+                   }
+               }
+           }
+           // find countries that have no issues
+           for(var i=0;i<PC.countries.length; i++) {
+               // if this country has no issues, add it to our list
+               if(countriesToRemove.indexOf(PC.countries[i]) == -1) {
+                   countriesWithoutTheIssues.push(PC.countries[i]);
+               }
+           }
+
+           return countriesWithoutTheIssues;
+       }
+
+       PC.loadCountryMedicalIssues = function() {
+           $.ajax({
+               url: "http://opendata.socrata.com/resource/qq6c-5xu9.json"
+           }).done(function(countryMedicalIssues) {
+               PC.countryMedicalIssues = countryMedicalIssues;
+           });
+       }
+
+       PC.loadSectors();
+       PC.loadCountries();
+       PC.loadLanguages();
+       PC.loadCountryMedicalIssues();
+
+   </script>
+  </body>
+</html>

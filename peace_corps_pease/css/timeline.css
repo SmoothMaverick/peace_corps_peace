@@ -1,0 +1,23 @@
+.axis text {
+    font: 12px sans-serif;
+}
+
+.axis line,
+.axis path {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+    cursor: pointer;
+}
+
+.selectorHand {
+    stroke: #008cba;
+    stroke-width:5;
+    cursor: col-resize;
+    shape-rendering: crispEdges;
+}
+
+.selectorArea {
+    opacity: 0;
+    cursor: pointer;
+}

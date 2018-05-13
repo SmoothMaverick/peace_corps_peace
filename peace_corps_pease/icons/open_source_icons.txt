@@ -1,0 +1,26 @@
+- Font Awesome
+http://fortawesome.github.io/Font-Awesome/get-started/
+
+
+
+1. Paste the following code into the <head> section of your site's HTML.
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+2. Add each of the following icons.
+
+-flag for WHERE
+<i class="fa fa-flag"></i> fa-flag
+
+-calendar for WHEN
+<i class="fa fa-calendar"></i> fa-calendar
+
+-
+
+
+-book for LANGUAGE
+<i class="fa fa-book"></i> fa-book
+
+-medical kit for MEDICAL ISSUE
+<i class="fa fa-medkit"></i> fa-medkit
+
+
